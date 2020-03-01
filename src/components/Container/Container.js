@@ -56,7 +56,7 @@ const Container = function({db}) {
     return (
         <>
             <Header />
-            <div className="container mt-5 pt-4">
+            <div className="container">
                 <div className="row">
                     <div className="col-4">
                         <NoteForm buttonHandler={createNote} text={text} setText={setText}/>
