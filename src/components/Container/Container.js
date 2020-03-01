@@ -18,14 +18,13 @@ const Container = function({db}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleClick = function(event) {
+    const createNote = function(event) {
         event.preventDefault();
         db.collection("notes").add({
             text: text,
             createdTime: moment().format('MMMM Do YYYY, h:mm:ss a')
         })
         .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
             setText("");
             renderNotes();
         })
@@ -35,15 +34,29 @@ const Container = function({db}) {
         });
     }
 
+    const deleteNote = function(id) {
+        db.collection("notes").doc(id).delete().then(() => {
+            renderNotes();
+        })
+        .catch((error) => {
+            console.error("Error deleting document: ", error);
+        })
+    }
+
     const noteList = notes.map((noteObj) => {
-        return <NoteCard text={noteObj.data().text} time={noteObj.data().createdTime ? noteObj.data().createdTime : ""} key={noteObj.id} />
+        return <NoteCard 
+                text={noteObj.data().text} 
+                time={noteObj.data().createdTime ? noteObj.data().createdTime : ""} 
+                key={noteObj.id}
+                handleDelete={() => {deleteNote(noteObj.id)}}
+            />
     });
 
     return (
         <div className="container">
             <div className="row">
                 <div className="col-4">
-                    <NoteForm buttonHandler={handleClick} text={text} setText={setText}/>
+                    <NoteForm buttonHandler={createNote} text={text} setText={setText}/>
                 </div>
                 <div className="col-8">
                     {noteList}
