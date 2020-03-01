@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NoteForm from "../NoteForm";
 import NoteCard from "../NoteCard";
+import Header from "../Header";
 import moment from "moment";
 
 const Container = function({db}) {
@@ -53,16 +54,19 @@ const Container = function({db}) {
     });
 
     return (
-        <div className="container">
-            <div className="row">
-                <div className="col-4">
-                    <NoteForm buttonHandler={createNote} text={text} setText={setText}/>
-                </div>
-                <div className="col-8">
-                    {noteList}
+        <>
+            <Header />
+            <div className="container mt-5 pt-4">
+                <div className="row">
+                    <div className="col-4">
+                        <NoteForm buttonHandler={createNote} text={text} setText={setText}/>
+                    </div>
+                    <div className="col-8">
+                        {noteList}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
