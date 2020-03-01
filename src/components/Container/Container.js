@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NoteForm from "../NoteForm";
+import NoteCard from "../NoteCard";
+import moment from "moment";
 
 const Container = function({db}) {
     const [text, setText] = useState("");
@@ -13,12 +15,14 @@ const Container = function({db}) {
 
     useEffect(() => {
         renderNotes();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleClick = function(event) {
         event.preventDefault();
         db.collection("notes").add({
-            text: text
+            text: text,
+            createdTime: moment().format('MMMM Do YYYY, h:mm:ss a')
         })
         .then(function(docRef) {
             console.log("Document written with ID: ", docRef.id);
@@ -32,7 +36,7 @@ const Container = function({db}) {
     }
 
     const noteList = notes.map((noteObj) => {
-        return <p key={noteObj.id}>{noteObj.data().text}</p>
+        return <NoteCard text={noteObj.data().text} time={noteObj.data().createdTime ? noteObj.data().createdTime : ""} key={noteObj.id} />
     });
 
     return (
