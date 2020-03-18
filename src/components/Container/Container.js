@@ -3,8 +3,9 @@ import NoteForm from "../NoteForm";
 import NoteCard from "../NoteCard";
 import Header from "../Header";
 import moment from "moment";
+import {db} from "../../database/db";
 
-const Container = function({db}) {
+const Container = function() {
     const [text, setText] = useState("");
     const [notes, setNotes] = useState([]);
 
